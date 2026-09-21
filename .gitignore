@@ -1,0 +1,25 @@
+# Python
+__pycache__/
+*.py[cod]
+
+# Virtual environment
+.venv/
+
+# VS Code
+.vscode/
+
+# OS files
+.DS_Store
+
+# Raw experimental images/video
+data/raw/
+*.mp4
+*.avi
+
+# ML model weights
+*.pt
+*.onnx
+
+# Temporary files
+*.tmp
+*.log
