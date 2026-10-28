@@ -1,8 +1,12 @@
+from pathlib import Path
 import cv2 as cv
 import sys
 import numpy as np
 import torch
 from torchvision import ops
+
+from Results import save_csv
+from Performance import benchmark
 
 img = cv.imread("output/config_tests/config_test1.jpg")
 if img is None:
@@ -58,5 +62,16 @@ def detect_blue(img):
 
     return output_image
 
-cv.imwrite("output/config_tests/CVTestBox.jpg", detect_blue(img))
+
+
+if __name__ == "__main__":
+    
+    dataset_path = Path("Datasets/Pilot")
+
+    image_paths = [str(img) for img in dataset_path.iterdir() if img.is_file() and img.suffix in [".jpg", ".png"]]
+
+    results = benchmark(image_paths, detect_blue, warmups=5)
+
+    save_csv("output/raw/pilot/openCV_latency.csv", results["latency"])
+    save_csv("output/raw/pilot/openCV_resources.csv", results["resources"])
 
