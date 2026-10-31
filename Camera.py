@@ -2,7 +2,7 @@ from picamera2 import Picamera2
 from libcamera import controls
 from pathlib import Path
 
-def take_picture(camera, counter, num_imgs, batch, lux):
+def take_picture(camera, counter, num_imgs, batch, lux, position):
 
     config = camera.create_still_configuration(
         main={
@@ -29,7 +29,7 @@ def take_picture(camera, counter, num_imgs, batch, lux):
 
     try:
         for i in range(num_imgs):
-            camera.capture_file(f"Datasets/{batch}/{batch}{counter+1:03d}_{lux}.jpg")
+            camera.capture_file(f"Datasets/{batch}/{batch}{counter+1:03d}_{lux}_{position}.jpg")
             counter += 1
 
     finally:
@@ -64,13 +64,20 @@ if __name__ == "__main__":
                     print(f"Batch '{input_batch}' does not exist. Please enter a valid batch name.")
                     continue
 
-                lux = (input("Enter the lux value ('low', 'med', 'high'): "))
+                #lux = (input("Enter the lux value ('low', 'med', 'high'): "))
+                lux = "med"
 
                 if lux not in ['low', 'med', 'high']:
                     print("Invalid lux value. Please enter 'low', 'med', or 'high'.")
                     continue
 
-                counter = take_picture(camera, counter, input_num_imgs, input_batch, lux)
+                position = input("Enter the position ('1', '2', '3', '4', '5', '6'): ")
+
+                if position not in ['1', '2', '3', '4', '5', '6']:
+                    print("Invalid position. Please enter '1', '2', '3', '4', '5', '6'.")
+                    continue
+
+                counter = take_picture(camera, counter, input_num_imgs, input_batch, lux, position)
 
             except ValueError:
                 print("Invalid input. Please enter a valid number or string.")
