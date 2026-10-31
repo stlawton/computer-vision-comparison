@@ -2,35 +2,10 @@ from pathlib import Path
 import cv2 as cv
 import sys
 import numpy as np
-import torch
-from torchvision import ops
+
 
 from Results import save_csv
 from Performance import benchmark
-
-img = cv.imread("output/config_tests/config_test1.jpg")
-if img is None:
-    sys.exit("Could not read the image.")
-
-cv.imwrite("output/config_tests/CVTest.jpg", img)
-
-def get_iou(img, p_x1, p_y1, p_x2, p_y2):
-    # Bounding box coordinates.
-    ground_truth_bbox = torch.tensor([[831.45, 318.78, 1053.28, 833.18]], dtype=torch.float)
-    prediction_bbox = torch.tensor([[p_x1, p_y1, p_x2, p_y2]], dtype=torch.float)
-
-    # Get iou.
-    iou = ops.box_iou(ground_truth_bbox, prediction_bbox)
-    print('IOU : ', iou.numpy()[0][0])
-
-    output_image = img.copy()
-
-    gt_x1, gt_y1, gt_x2, gt_y2 = ground_truth_bbox[0].int().tolist()
-
-    cv.rectangle(output_image, (p_x1, p_y1), (p_x2, p_y2), (0, 255, 0), 2)
-    cv.rectangle(output_image, (gt_x1, gt_y1), (gt_x2, gt_y2), (0, 0, 255), 2)
-
-    cv.imwrite("output/config_tests/IOUResult.jpg", output_image)
 
 
 def detect_blue(img):
@@ -44,23 +19,25 @@ def detect_blue(img):
     # Create a mask for blue colors
     mask = cv.inRange(hsv, lower_blue, upper_blue)
 
-    output_image = img.copy()
-    mask_img = img.copy()
-
-    cv.imwrite("output/config_tests/CVTestMask.jpg", mask)
+    predictions = []
 
     contours, _ = cv.findContours(mask, cv.RETR_EXTERNAL, cv.CHAIN_APPROX_SIMPLE)
 
     for contour in contours:
-        x, y, w, h = cv.boundingRect(contour)
-
+        
 
         if cv.contourArea(contour) > 100:  # Filter out small contours
-            cv.rectangle(output_image, (x, y), (x + w, y + h), (0, 255, 0), 2)
-            get_iou(output_image, x, y, x + w, y + h)
+            x, y, w, h = cv.boundingRect(contour)
+
+            predictions.append({
+                "bbox": [x, y, x + w, y + h],
+                "class_id": None,
+                "class_name": "blue_candidate",
+                "confidence": None
+            })
 
 
-    return output_image
+    return predictions
 
 
 
@@ -70,8 +47,11 @@ if __name__ == "__main__":
 
     image_paths = [str(img) for img in dataset_path.iterdir() if img.is_file() and img.suffix in [".jpg", ".png"]]
 
-    results = benchmark(image_paths, detect_blue, warmups=5)
+    results = benchmark(image_paths, cv.imread, detect_blue, warmups=5, method="openCV")
 
     save_csv("output/raw/pilot/openCV_latency.csv", results["latency"])
     save_csv("output/raw/pilot/openCV_resources.csv", results["resources"])
+    save_csv("output/raw/pilot/openCV_predictions.csv", results["predictions"])
+    save_csv("output/raw/pilot/openCV_run_info.csv", [results["run_info"]])
+
 
