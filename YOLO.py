@@ -44,7 +44,7 @@ if __name__ == "__main__":
 
     results = benchmark(image_paths, cv.imread, detect_yolo, warmups=5, method="yolo26n")
 
-    save_csv("output/raw/pilot/yolo_latency.csv", results["latency"])
-    save_csv("output/raw/pilot/yolo_resources.csv", results["resources"])
-    save_csv("output/raw/pilot/yolo_predictions.csv", results["predictions"])
-    save_csv("output/raw/pilot/yolo_run_info.csv", [results["run_info"]])
+    save_csv("output/pilot/raw/yolo_latency.csv", results["latency"])
+    save_csv("output/pilot/raw/yolo_resources.csv", results["resources"])
+    save_csv("output/pilot/raw/yolo_predictions.csv", results["predictions"])
+    save_csv("output/pilot/raw/yolo_run_info.csv", [results["run_info"]])

@@ -49,9 +49,9 @@ if __name__ == "__main__":
 
     results = benchmark(image_paths, cv.imread, detect_blue, warmups=5, method="openCV")
 
-    save_csv("output/raw/pilot/openCV_latency.csv", results["latency"])
-    save_csv("output/raw/pilot/openCV_resources.csv", results["resources"])
-    save_csv("output/raw/pilot/openCV_predictions.csv", results["predictions"])
-    save_csv("output/raw/pilot/openCV_run_info.csv", [results["run_info"]])
+    save_csv("output/pilot/raw/openCV_latency.csv", results["latency"])
+    save_csv("output/pilot/raw/openCV_resources.csv", results["resources"])
+    save_csv("output/pilot/raw/openCV_predictions.csv", results["predictions"])
+    save_csv("output/pilot/raw/openCV_run_info.csv", [results["run_info"]])
 
 
