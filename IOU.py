@@ -113,3 +113,17 @@ def get_iou(method, prediction_csv, ground_truth_csv):
         )
 
     return results
+
+
+if __name__ == "__main__":
+    method = "openCV"
+    prediction_csv = Path(f"output/pilot/raw/{method}_predictions.csv")
+    ground_truth_csv = Path("output/pilot/ground_truth/ground_truth.csv")
+
+    iou_results = get_iou(method, prediction_csv, ground_truth_csv)
+
+    iou_df = pd.DataFrame(iou_results)
+    iou_df.to_csv(
+        Path(f"output/pilot/raw/{method}_iou_results.csv"),
+        index=False
+    )
