@@ -2,11 +2,13 @@ from pathlib import Path
 import cv2 as cv
 import sys
 import numpy as np
-
-
 from Results import save_csv
 from Performance import benchmark
 
+# This script runs the OpenCV-based blue object detection method on the selected dataset and saves the results to CSV files.
+# It is built to be run independently so that when testing the different methods, the Raspberry Pi can be run with a clean slate
+# between tests. The main method runs the script allowing the user to choose the inputs and output locations. The detect_blue
+# function is used to run the OpenCV method on each image and return the predictions in a structured format.
 
 def detect_blue(img):
     # Convert the image to the HSV color space
