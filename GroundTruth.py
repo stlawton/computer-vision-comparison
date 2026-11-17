@@ -187,7 +187,7 @@ if __name__ == "__main__":
             "gt_y2": coordinates[3]
         })
 
-        if dataset == "Training":
+        if dataset == "Training" or dataset == "Validation":
        
             save_yolo_label(
                 image_path=image_path,
@@ -204,7 +204,7 @@ if __name__ == "__main__":
 
     transfer_csv(csv_path, dataset)
 
-    if dataset == "Training":
+    if dataset == "Training" or dataset == "Validation":
 
         transfer_yolo_labels(Path(f"Datasets/{dataset}/{dataset}_labels"), dataset)
 
