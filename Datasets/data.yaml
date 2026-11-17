@@ -1,0 +1,7 @@
+path: /home/slawton/research_datasets
+
+train: Training
+val: Validation
+
+names:
+  0: blue_thermos
