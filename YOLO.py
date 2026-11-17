@@ -10,7 +10,7 @@ import cv2 as cv
 # the user to choose the inputs and output locations. The detect_yolo function is used to run the model on each image and return the predictions
 # in a structured format.
 
-model = YOLO("yolo26n.pt")                              # Load the desired YOLO26n model.
+model = YOLO("Model/yolo26n_finetuned.pt")                              # Load the desired YOLO26n model.
 
 # This function takes an image as input, runs the YOLO26n model on it, and returns a list of predictions.
 # Each prediction is a dictionary containing the bounding box coordinates, class ID, class name, and confidence score.
