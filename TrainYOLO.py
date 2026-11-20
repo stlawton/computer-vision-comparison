@@ -19,7 +19,7 @@ def main():
         cache=False,
         save=True,
         project="runs/training",
-        name="yolo26n_v1",
+        name="yolo26n_final",
 
         # Disable lighting/color augmentation.
         hsv_h=0.0,
@@ -42,7 +42,7 @@ def main():
     best_model = Path(model.trainer.best)
 
     # Save a permanent copy.
-    saved_model = Path("Models/yolo26n_finetuned.pt")
+    saved_model = Path("Model/yolo26n_finetuned.pt")
     saved_model.parent.mkdir(parents=True, exist_ok=True)
 
     copy2(best_model, saved_model)
