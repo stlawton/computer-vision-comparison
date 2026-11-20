@@ -48,14 +48,16 @@ def detect_yolo(image):
 # to save the results to CSV files for further analysis.
 
 if __name__ == "__main__":
-    
-    dataset_path = Path("Datasets/Pilot")                                                                               # Set the path to the dataset directory containing the images to be processed.
+
+    dataset = input("Enter the dataset name (e.g., Pilot): ")                                                          # Prompt the user to enter the dataset name.
+
+    dataset_path = Path(f"Datasets/{dataset}")                                                                            # Set the path to the dataset directory containing the images to be processed.
 
     image_paths = [str(img) for img in dataset_path.iterdir() if img.is_file() and img.suffix in [".jpg", ".png"]]      # Create a list of image paths found in the dataset directory.
 
     results = benchmark(image_paths, cv.imread, detect_yolo, warmups=5, method="yolo26n")                               # Call the benchmark function on the list of image paths
 
-    save_csv("output/pilot/raw/yolo_latency.csv", results["latency"])
-    save_csv("output/pilot/raw/yolo_resources.csv", results["resources"])
-    save_csv("output/pilot/raw/yolo_predictions.csv", results["predictions"])
-    save_csv("output/pilot/raw/yolo_run_info.csv", [results["run_info"]])
+    save_csv(f"output/{dataset}/raw/yolo_latency.csv", results["latency"])
+    save_csv(f"output/{dataset}/raw/yolo_resources.csv", results["resources"])
+    save_csv(f"output/{dataset}/raw/yolo_predictions.csv", results["predictions"])
+    save_csv(f"output/{dataset}/raw/yolo_run_info.csv", [results["run_info"]])

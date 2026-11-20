@@ -28,7 +28,7 @@ def detect_blue(img):
     for contour in contours:
         
 
-        if cv.contourArea(contour) > 100:  # Filter out small contours
+        if cv.contourArea(contour) > 1000:  # Filter out small contours
             x, y, w, h = cv.boundingRect(contour)
 
             predictions.append({
@@ -45,15 +45,17 @@ def detect_blue(img):
 
 if __name__ == "__main__":
     
-    dataset_path = Path("Datasets/Pilot")
+    dataset = input("Enter the dataset name (e.g., Pilot): ")                                                          # Prompt the user to enter the dataset name.
+
+    dataset_path = Path(f"Datasets/{dataset}")  
 
     image_paths = [str(img) for img in dataset_path.iterdir() if img.is_file() and img.suffix in [".jpg", ".png"]]
 
     results = benchmark(image_paths, cv.imread, detect_blue, warmups=5, method="openCV")
 
-    save_csv("output/pilot/raw/openCV_latency.csv", results["latency"])
-    save_csv("output/pilot/raw/openCV_resources.csv", results["resources"])
-    save_csv("output/pilot/raw/openCV_predictions.csv", results["predictions"])
-    save_csv("output/pilot/raw/openCV_run_info.csv", [results["run_info"]])
+    save_csv(f"output/{dataset}/raw/openCV_latency.csv", results["latency"])
+    save_csv(f"output/{dataset}/raw/openCV_resources.csv", results["resources"])
+    save_csv(f"output/{dataset}/raw/openCV_predictions.csv", results["predictions"])
+    save_csv(f"output/{dataset}/raw/openCV_run_info.csv", [results["run_info"]])
 
 
