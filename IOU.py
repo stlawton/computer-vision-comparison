@@ -4,7 +4,7 @@ import cv2 as cv
 import pandas as pd
 from pathlib import Path
 
-def get_iou(dataset, method, prediction_csv, ground_truth_csv):
+def get_iou(dataset, method, trial, prediction_csv, ground_truth_csv):
 
     ground_truth_df = pd.read_csv(ground_truth_csv)
     prediction_df = pd.read_csv(prediction_csv)
@@ -12,7 +12,7 @@ def get_iou(dataset, method, prediction_csv, ground_truth_csv):
     results = []
 
     image_dir = Path(f"Datasets/{dataset}")
-    output_dir = Path(f"output/{dataset}/iou_image/{method}")
+    output_dir = Path(f"output/{dataset}/trial{trial}/iou_image/{method}")
     output_dir.mkdir(parents=True, exist_ok=True)
 
     for _, gt in ground_truth_df.iterrows():
@@ -121,13 +121,15 @@ if __name__ == "__main__":
 
     method = input("Enter the method name (e.g., openCV): ")
 
-    prediction_csv = Path(f"output/{dataset}/raw/{method}_predictions.csv")
-    ground_truth_csv = Path(f"output/{dataset}/ground_truth/ground_truth.csv")
+    trial = input("Enter the trial number (1, 2, 3, etc.): ") 
 
-    iou_results = get_iou(dataset, method, prediction_csv, ground_truth_csv)
+    prediction_csv = Path(f"output/{dataset}/trial{trial}/raw/{method}_predictions.csv")
+    ground_truth_csv = Path(f"output/{dataset}/trial{trial}/ground_truth/ground_truth.csv")
+
+    iou_results = get_iou(dataset, method, trial, prediction_csv, ground_truth_csv)
 
     iou_df = pd.DataFrame(iou_results)
     iou_df.to_csv(
-        Path(f"output/{dataset}/raw/{method}_iou_results.csv"),
+        Path(f"output/{dataset}/trial{trial}/raw/{method}_iou_results.csv"),
         index=False
     )

@@ -46,6 +46,8 @@ def detect_blue(img):
 if __name__ == "__main__":
     
     dataset = input("Enter the dataset name (e.g., Pilot): ")                                                          # Prompt the user to enter the dataset name.
+    
+    trial = input("Enter the trial number (1, 2, 3, etc.): ")                                                             # Prompt the user to enter the trial number.
 
     dataset_path = Path(f"Datasets/{dataset}")  
 
@@ -53,9 +55,9 @@ if __name__ == "__main__":
 
     results = benchmark(image_paths, cv.imread, detect_blue, warmups=5, method="openCV")
 
-    save_csv(f"output/{dataset}/raw/openCV_latency.csv", results["latency"])
-    save_csv(f"output/{dataset}/raw/openCV_resources.csv", results["resources"])
-    save_csv(f"output/{dataset}/raw/openCV_predictions.csv", results["predictions"])
-    save_csv(f"output/{dataset}/raw/openCV_run_info.csv", [results["run_info"]])
+    save_csv(f"output/{dataset}/trial{trial}/raw/openCV_latency.csv", results["latency"])
+    save_csv(f"output/{dataset}/trial{trial}/raw/openCV_resources.csv", results["resources"])
+    save_csv(f"output/{dataset}/trial{trial}/raw/openCV_predictions.csv", results["predictions"])
+    save_csv(f"output/{dataset}/trial{trial}/raw/openCV_run_info.csv", [results["run_info"]])
 
 
