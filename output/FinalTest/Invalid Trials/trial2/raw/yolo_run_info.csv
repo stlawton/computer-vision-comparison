@@ -1,0 +1,2 @@
+run_id,method,run_start_ns,run_end_ns,warmups,sample_interval_s,image_count,cpu_user_start_s,cpu_user_end_s,cpu_system_start_s,cpu_system_end_s,run_elapsed_ms
+yolo26n_20261121T160225178772Z,yolo26n,466197221997,564852208144,5,0.1,430,5.51,207.21,0.49,2.79,98654.986147
