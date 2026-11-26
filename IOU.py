@@ -124,7 +124,7 @@ if __name__ == "__main__":
     trial = input("Enter the trial number (1, 2, 3, etc.): ") 
 
     prediction_csv = Path(f"output/{dataset}/trial{trial}/raw/{method}_predictions.csv")
-    ground_truth_csv = Path(f"output/{dataset}/trial{trial}/ground_truth/ground_truth.csv")
+    ground_truth_csv = Path(f"output/{dataset}/ground_truth/ground_truth.csv")
 
     iou_results = get_iou(dataset, method, trial, prediction_csv, ground_truth_csv)
 
